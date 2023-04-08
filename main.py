@@ -163,7 +163,8 @@ def display_pdf():
 
         with col3:
             # st.write(f"DEBUG: {page_num}")
-            page_image = pdf_page_image(pdf_reader, pdf_name, page_num=page_num)
+            with st.spinner("Page is rendering..."):
+                page_image = pdf_page_image(pdf_reader, pdf_name, page_num=page_num)
             st.image(BytesIO(page_image))
 
         with col2:

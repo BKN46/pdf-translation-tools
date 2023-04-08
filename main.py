@@ -182,12 +182,13 @@ def display_pdf():
                 if new_term_publish:
                     add_new_term(pdf_name, new_term, new_meaning)
 
+                term_trans_text = []
                 if os.path.isfile(term_tsv_path):
                     terms = {
                         x.strip().split("\t")[0].lower(): x.strip().split("\t")[1]
                         for x in open(term_tsv_path, "r").readlines()
                     }
-                    term_trans_text = []
+                    terms = dict(sorted(terms.items(), key=lambda x: len(x[0]), reverse=True))
                     last_end = 0
                     for i, c in enumerate(origin_text):
                         for term, meaning in terms.items():
@@ -224,7 +225,10 @@ def display_pdf():
                     mt_text = "Click on machine translate to get the MT result"
                 with c21:
                     if st.button("Machine Translate"):
-                        mt_text = get_translate_block(page_text)
+                        if term_trans_text:
+                            mt_text = get_translate_block(''.join([(x[1] if isinstance(x, tuple) else x) for x in term_trans_text]))
+                        else:
+                            mt_text = get_translate_block(page_text)
                         open(mt_save_path, "w").write(mt_text)
                 st.write(mt_text)
 

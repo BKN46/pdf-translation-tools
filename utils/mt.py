@@ -1,11 +1,11 @@
 import json
 import requests
 
-from utils.settings import SETTINS
+from utils.settings import get_setting
 
 url = f"https://transmart.qq.com/api/imt"
-user = SETTINS['mt_user']
-token = SETTINS['mt_token']
+user = get_setting('mt_user')
+token = get_setting('mt_token')
 
 def get_translate_block(text, src_lang="en", tgt_lang="zh"):
     body = {

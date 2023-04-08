@@ -154,3 +154,5 @@ cython_debug/
 test_files/
 tmp/
 settings.json
+.vscode/
+credentials.yaml

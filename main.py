@@ -62,7 +62,6 @@ def add_new_index(pdf_name, new_index, index_page):
             open(term_tsv_path, "a").write(f"{new_index}\t{index_page}\n")
     else:
         open(term_tsv_path, "a").write(f"{new_index}\t{index_page}\n")
-    st.session_state.page = 0
 
 
 def bottom_render(pdf_name, pdf_reader):
@@ -225,10 +224,11 @@ def display_pdf():
                     mt_text = "Click on machine translate to get the MT result"
                 with c21:
                     if st.button("Machine Translate"):
-                        if term_trans_text:
-                            mt_text = get_translate_block(''.join([(x[1] if isinstance(x, tuple) else x) for x in term_trans_text]))
-                        else:
-                            mt_text = get_translate_block(page_text)
+                        with st.spinner("Waiting..."):
+                            if term_trans_text:
+                                mt_text = get_translate_block(''.join([(x[1] if isinstance(x, tuple) else x) for x in term_trans_text]))
+                            else:
+                                mt_text = get_translate_block(page_text)
                         open(mt_save_path, "w").write(mt_text)
                 st.write(mt_text)
 
